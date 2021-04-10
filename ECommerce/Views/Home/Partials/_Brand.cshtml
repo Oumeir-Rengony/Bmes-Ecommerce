@@ -9,11 +9,34 @@
         {
             @if (brand.Slug == (string)ViewData["SelectedBrand"])
             {
-                <li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__selected">@brand.Name</a></li>
-            }
+                <li>
+
+                    <a asp-controller="Home" asp-action="Index"
+                       asp-route-category_slug="@ViewData["SelectedCategory"]"
+                       asp-route-brand_slug="@brand.Slug"
+                       asp-route-page=1
+                       class="filterBy__item__selected"
+                       >
+                        @brand.Name
+                    </a>
+                </li>
+
+           @* <li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__selected">@brand.Name</a></li>*@
+        }
             else
             {
-                <li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__not-selected">@brand.Name</a></li>
+                <li>
+
+                    <a asp-controller="Home" asp-action="Index"
+                       asp-route-category_slug="@ViewData["SelectedCategory"]"
+                       asp-route-brand_slug="@brand.Slug"
+                       asp-route-page=1
+                       class="filterBy__item__not-selected"
+                    >
+                        @brand.Name
+                    </a>
+                </li>
+                @*<li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__not-selected">@brand.Name</a></li>*@
             }
         }
     </ul>
