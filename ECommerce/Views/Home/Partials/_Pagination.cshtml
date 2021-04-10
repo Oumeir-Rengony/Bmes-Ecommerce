@@ -1,0 +1,49 @@
+﻿@model PaginationViewModel
+
+@if (Model.Products.Any())
+{
+  <div class="container">
+    <nav>
+      <div class="custom-pagination">
+        <ul class="pagination">
+          @if (Model.HasPreviousPages)
+          {
+            <li><a asp-controller="Home" asp-action="Index" asp-route-page ="@(Model.CurrentPage -1)">&laquo;</a></li>
+          }
+          else
+          {
+            <li class="disabled"><span>&laquo;</span></li>
+          }
+          @foreach (var page in Model.Pages)
+          {
+            if (page > 0)
+            {
+              if (Model.CurrentPage == page)
+              {
+                <li class="active"><span>@(page) <span class="sr-only">(current)</span></span></li>
+              }
+              else
+              {
+                <li><a asp-controller="Home" asp-action="Index" asp-route-page ="@(page)">@(page)</a></li>
+              }
+            }
+            else
+            {
+              <li class="disabled"><a href="#">&hellip;</a></li> 
+            }
+          }
+
+          @if (Model.HasNextPages)
+          {
+            <li><a asp-controller="Home" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)">&raquo;</a></li>
+          }
+          else
+          {
+            <li class="disabled"><span>&raquo;</span></li>
+          }
+        </ul>
+      </div>
+    </nav>
+  </div>
+}
+

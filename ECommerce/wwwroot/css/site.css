@@ -1,5 +1,20 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
 
 a.navbar-brand {
   white-space: normal;
@@ -69,3 +84,80 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+.filterBy__heading {
+    color: rgb(254, 152, 15);
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0px auto 10px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 3;
+}
+
+.category__line::before {
+    content: "";
+    position: absolute;
+    background: rgb(255, 255, 255);
+    bottom: -6px;
+    width: 130px;
+    height: 30px;
+    z-index: -1;
+    left: 50%;
+    margin-left: -65px;
+}
+
+.category__line::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgb(220, 216, 216);
+    bottom: 8px;
+    left: 0px;
+    width: 100%;
+    height: 0px;
+    z-index: -2;
+}
+
+.filterBy__list-wrapper {
+    border: 1px solid rgb(247, 247, 240);
+    margin-bottom: 25px;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+.filterBy__list-wrapper li {
+    margin-bottom: 8px;
+}
+
+.filterBy__item__selected {
+    color: rgb(254, 152, 15);
+}
+
+.filterBy__item__not-selected {
+    color: rgb(105, 103, 99);
+}
+
+
+
+/*Pagination Color*/
+.custom-pagination .pagination > li > a,
+.custom-pagination .pagination > li > span {
+    border: 1px solid rgb(105, 103, 99);
+    color: purple;
+    padding: 6px 12px;
+}
+
+.pagination > li.active > span {
+    background-color: rgb(254, 152, 15);
+    color: #fff;
+}
+
+.pagination > li > a:hover {
+    background-color: rgb(254, 152, 15);
+    /*border: 1px solid #a64ca6;*/
+    color: white;
+}
+

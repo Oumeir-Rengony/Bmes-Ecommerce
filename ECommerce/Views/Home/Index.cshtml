@@ -1,8 +1,22 @@
-﻿@{
+﻿@model PagedProductViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 index__filter-wrapper">
+            @*<h4 class="index__filter-title">Filter By</h4>
+                <hr />*@
+            <div>
+                <partial name="../Home/Partials/_Category.cshtml" model="@Model.Categories" view-data="ViewData" />
+            </div>
+            <div>
+                <partial name="../Home/Partials/_Brand.cshtml" model="@Model.Brands" view-data="ViewData" />
+            </div>
+        </div>
+        <div class="col-md-9 @(Model.PagedProducts.Products.Any()? " index__product-wrapper--has-pages" : "index__product-wrapper--no-pages" )" style="padding-top: 40px;">
+            <partial name="../Home/Partials/_ProductList.cshtml" model="@Model" />
+        </div>
+    </div>
 </div>

@@ -6,21 +6,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Services.Contracts;
 
 namespace ECommerce.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private ICatalogueService _catalogueService;
+
+        public HomeController(ICatalogueService catalogueService)
         {
-            _logger = logger;
+            _catalogueService = catalogueService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string category_slug = "all-categories", string brand_slug = "all-brands", int page = 1)
         {
-            return View();
+            ViewData["SelectedCategory"] = category_slug;
+            ViewData["SelectedBrand"] = brand_slug;
+
+            var pagedProducts = _catalogueService.FetchProducts(category_slug, brand_slug, page);
+
+            return View(pagedProducts);
         }
 
         public IActionResult Privacy()
