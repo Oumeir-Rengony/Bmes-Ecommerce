@@ -85,7 +85,6 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-
 .filterBy__heading {
     color: rgb(254, 152, 15);
     font-family: Roboto, sans-serif;
@@ -121,12 +120,14 @@ body {
     z-index: -2;
 }
 
+
 .filterBy__list-wrapper {
     border: 1px solid rgb(247, 247, 240);
     margin-bottom: 25px;
     padding-left: 20px;
     padding-top: 15px;
 }
+
 
 .filterBy__list-wrapper li {
     margin-bottom: 8px;

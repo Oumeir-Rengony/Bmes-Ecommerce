@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Cart\CartDetail.cshtml" />
+    <None Include="Views\Cart\Partials\_CartSummaryWidget.cshtml" />
     <None Include="wwwroot\images\banner1.svg" />
     <None Include="wwwroot\images\banner2.svg" />
     <None Include="wwwroot\images\banner3.svg" />

@@ -1,15 +1,28 @@
 ﻿@model Product
+@{
+    var addToCartViewModel = new AddToCartViewModel();
+}
 
 <div class="product-list-item">
-  <div class="product-list-item__image-wrapper">
-    <img src="/images/productimages/main/@Model.ImageUrl" class="product-list-item__image" />
-  </div>
-  <div>
-    <p class="product-list-item__product-name">@Model.Name</p>
-  </div>
-  <div>
-    <p class="product-list-item__product-price">$@Model.Price</p>
-  </div>
+    <div class="product-list-item__image-wrapper">
+        <img src="/images/productimages/main/@Model.ImageUrl" class="product-list-item__image" />
+    </div>
+    <div>
+        <p class="product-list-item__product-name">@Model.Name</p>
+    </div>
+    <div>
+        <p class="product-list-item__product-price">$@Model.Price</p>
+    </div>
+
+    <div>
+        <form asp-controller="Cart" asp-action="AddItemToCart" method="post">
+            <input type="hidden" asp-for="@addToCartViewModel.ProductId" value="@Model.Id" />
+            <input type="hidden" asp-for="@addToCartViewModel.CategorySlug" value="@ViewData["SelectedCategory"]" />
+            <input type="hidden" asp-for="@addToCartViewModel.BrandSlug" value="@ViewData["SelectedBrand"]" />
+            <input type="hidden" asp-for="@addToCartViewModel.Page" value="@ViewData["Page"]" />
+            <button type="submit" name="submit" class="product-list-item__button">Add to Cart</button>
+        </form>
+    </div>
 
 </div>
 

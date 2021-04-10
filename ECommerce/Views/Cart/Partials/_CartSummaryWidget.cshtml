@@ -1,0 +1,21 @@
+﻿@{
+  var cartTotal = Convert.ToDecimal(ViewData["CartTotal"]);
+  var cartItemsCount = Convert.ToInt32(ViewData["CartItemsCount"]);
+  var cartItems = ViewData["CartItems"] as IEnumerable<CartItem>;
+}
+
+<div>
+  @if (cartItems != null && cartItems.Any())
+  {
+    <small class="cart_summary_widget__wrapper">
+      <b>My Cart:</b>
+      <span class="cart_summary_widget__item-count">@cartItemsCount item(s)</span>
+      <span class="cart_summary_widget__cart-total">$@cartTotal</span>
+    </small>
+  }
+  <a asp-controller="Cart" asp-action="CartDetail">
+      <img src="/images/shopping-cart.png" width="40" style="margin-right:25px"/>
+      @*<span class="material-icons cart_summary_widget__cart-icon">shopping_cart</span>*@
+      @*<i class="glyphicon glyphicon-shopping-cart cart_summary_widget__cart-icon"></i>*@
+  </a>
+</div>

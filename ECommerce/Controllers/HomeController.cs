@@ -14,16 +14,23 @@ namespace ECommerce.Controllers
     {
 
         private ICatalogueService _catalogueService;
+        private ICartService _cartService;
 
-        public HomeController(ICatalogueService catalogueService)
+        public HomeController(ICatalogueService catalogueService, ICartService cartService)
         {
             _catalogueService = catalogueService;
+            _cartService = cartService;
         }
 
         public IActionResult Index(string category_slug = "all-categories", string brand_slug = "all-brands", int page = 1)
         {
             ViewData["SelectedCategory"] = category_slug;
             ViewData["SelectedBrand"] = brand_slug;
+            ViewData["Page"] = page;
+
+            ViewData["CartTotal"] = _cartService.GetCartTotal();
+            ViewData["CartItemsCount"] = _cartService.CartItemsCount();
+            ViewData["CartItems"] = _cartService.GetCartItems();
 
             var pagedProducts = _catalogueService.FetchProducts(category_slug, brand_slug, page);
 
