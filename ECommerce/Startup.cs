@@ -50,9 +50,12 @@ namespace ECommerce
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<ICartItemRepository, CartItemRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
             services.AddTransient<ICatalogueService, CatalogueService>();
             services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICheckoutService, CheckoutService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }

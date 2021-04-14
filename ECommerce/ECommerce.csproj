@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Checkout\Receipt.cshtml" />
     <None Include="Views\Cart\CartDetail.cshtml" />
     <None Include="Views\Cart\Partials\_CartSummaryWidget.cshtml" />
     <None Include="wwwroot\images\banner1.svg" />

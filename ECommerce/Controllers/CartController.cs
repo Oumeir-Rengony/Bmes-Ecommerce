@@ -1,10 +1,12 @@
 ﻿using ECommerce.Services;
 using ECommerce.Services.Contracts;
 using ECommerce.ViewModels.Cart;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
