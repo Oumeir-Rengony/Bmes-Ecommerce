@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ECommerce.Models.Product;
+using ECommerce.Models.Domain.Product;
 
 namespace ECommerce.ViewModels.Catalogue
 {

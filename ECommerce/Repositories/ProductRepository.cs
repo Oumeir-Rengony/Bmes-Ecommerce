@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ECommerce.Data;
-using ECommerce.Models.Product;
+using ECommerce.Models.Domain.Product;
 using ECommerce.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 

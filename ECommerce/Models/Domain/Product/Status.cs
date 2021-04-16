@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Models.Product
+﻿namespace ECommerce.Models.Domain.Product
 {
     public enum Status
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ECommerce.Models.Cart
+namespace ECommerce.Models.Domain.Cart
 {
     public class Cart:BaseObject
     {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace ECommerce.Models.Customer
+namespace ECommerce.Models.Domain.Customer
 {
     public class Customer:IdentityUser
     {

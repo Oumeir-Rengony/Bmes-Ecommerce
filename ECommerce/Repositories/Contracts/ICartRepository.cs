@@ -1,5 +1,5 @@
-﻿using ECommerce.Models.Cart;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ECommerce.Models.Domain.Cart;
 
 namespace ECommerce.Repositories.Contracts
 {

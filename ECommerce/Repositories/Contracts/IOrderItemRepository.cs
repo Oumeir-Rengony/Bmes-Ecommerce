@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ECommerce.Models.Order;
+using ECommerce.Models.Domain.Order;
 
 namespace ECommerce.Repositories.Contracts
 {

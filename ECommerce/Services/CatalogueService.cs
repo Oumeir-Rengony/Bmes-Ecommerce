@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerce.Models.Product;
+using ECommerce.Models.Domain.Product;
+using ECommerce.Models.Helper;
 using ECommerce.Repositories.Contracts;
 using ECommerce.Services.Contracts;
 using ECommerce.ViewModels.Catalogue;
@@ -11,21 +12,18 @@ namespace ECommerce.Services
 {
     public class CatalogueService : ICatalogueService
     {
-        private IBrandRepository _brandRepository;
-        private ICategoryRepository _categoryRepository;
-        private IProductRepository _productRepository;
-        private readonly HttpContext _httpContext;
+        private readonly IBrandRepository _brandRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
         private const int _productPerPage = 9;
 
-        public CatalogueService(IHttpContextAccessor httpContextAccessor,
-            IBrandRepository brandRepository,
+        public CatalogueService(IBrandRepository brandRepository,
             ICategoryRepository categoryRepository,
             IProductRepository productRepository)
         {
             _brandRepository = brandRepository;
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
-            _httpContext = httpContextAccessor.HttpContext;
         }
         public PagedProductViewModel FetchProducts(string categorySlug, string brandSlug, int productPage)
         {
@@ -33,65 +31,82 @@ namespace ECommerce.Services
             var categories = _categoryRepository.GetAllCategories();
             var products = _productRepository.GetAllProducts();
 
-            IEnumerable<Product> ProductsByPage = new List<Product>();
-            int productCount = 0;
-
-            if (categorySlug == "all-categories" && brandSlug == "all-brands")
+            var filter = new FilterModel
             {
-                ProductsByPage = filterProductsByPage(products, productPage);
-                productCount = products.Count();
+                CategorySlug = categorySlug,
+                BrandSlug = brandSlug
+            };
+
+            IEnumerable<Product> filteredProducts = FilterProducts(filter, products).ToList();
+            IEnumerable<Product> productsByPage = GetProductsByPage(filteredProducts, productPage).ToList();
+
+            var totalPages =  GetTotalPages(filteredProducts);
+            PaginationViewModel pagination = CreatePaginationViewModel(productsByPage, productPage, totalPages);
+            PagedProductViewModel pagedProducts = CreatePagedProductViewModel(pagination, brands, categories);
+
+            return pagedProducts;
+        }
+
+        public IEnumerable<Product> FilterProducts(FilterModel filter, IEnumerable<Product> products)
+        {
+
+            if (filter.CategorySlug != "all-categories")
+            {
+                products = products.Where(product => product.Category.Slug == filter.CategorySlug);
             }
 
-            else if (categorySlug != "all-categories" && brandSlug != "all-brands")
+            if (filter.BrandSlug != "all-brands")
             {
-                var filteredProducts = products.Where(product => product.Category.Slug == categorySlug && 
-                                                                 product.Brand.Slug == brandSlug);
-                productCount = filteredProducts.Count();
-                ProductsByPage = filterProductsByPage(filteredProducts, productPage);
+                products = products.Where(product => product.Brand.Slug == filter.BrandSlug);
             }
 
-            else if (categorySlug != "all-categories" && brandSlug == "all-brands")
-            {
-                var filteredProducts = products.Where(product => product.Category.Slug == categorySlug);
-                productCount = filteredProducts.Count();
-                ProductsByPage = filterProductsByPage(filteredProducts, productPage);
-            }
+            return products;
+        }
 
-            else if (categorySlug == "all-categories" && brandSlug != "all-brands")
-            {
-                var filteredProducts = products.Where(product => product.Brand.Slug == brandSlug);
-                productCount = filteredProducts.Count();
-                ProductsByPage = filterProductsByPage(filteredProducts, productPage);
-            }
+        public IEnumerable<Product> GetProductsByPage(IEnumerable<Product> products, int productPage)
+        {
+            return products
+                .Skip((productPage - 1) * _productPerPage)
+                .Take(_productPerPage);
+        }
 
-            var totalPages = (int)Math.Ceiling((decimal)productCount / _productPerPage);
+        public int GetTotalPages(IEnumerable<Product> product)
+        {
+            var productCount = product.Count();
+            var totalPages = (int) Math.Ceiling((decimal)productCount / _productPerPage);
 
+            return totalPages;
+        }
+
+        public PaginationViewModel CreatePaginationViewModel(IEnumerable<Product> products, int productPage, int totalPages)
+        {
             int[] pages = Enumerable.Range(1, totalPages).ToArray();
 
             var pagedProduct = new PaginationViewModel
             {
-                Products = ProductsByPage,
+                Products = products,
                 HasPreviousPages = (productPage > 1),
                 CurrentPage = productPage,
                 HasNextPages = (productPage < totalPages),
                 Pages = pages
             };
 
+            return pagedProduct;
+        }
+
+        public PagedProductViewModel CreatePagedProductViewModel(
+            PaginationViewModel paginationViewModel,
+            IEnumerable<Brand> brands,
+            IEnumerable<Category> categories)
+        {
             var pagedProducts = new PagedProductViewModel
             {
-                PagedProducts = pagedProduct,
+                PagedProducts = paginationViewModel,
                 Brands = brands,
                 Categories = categories
             };
 
             return pagedProducts;
-        }
-
-        public IEnumerable<Product> filterProductsByPage(IEnumerable<Product> products, int productPage)
-        {
-            return products
-                .Skip((productPage - 1) * _productPerPage)
-                .Take(_productPerPage);
         }
 
     }

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ECommerce.Models.Cart;
-using ECommerce.Models.Customer;
-using ECommerce.Models.Order;
-using ECommerce.Models.Product;
+using ECommerce.Models.Domain.Cart;
+using ECommerce.Models.Domain.Customer;
+using ECommerce.Models.Domain.Order;
+using ECommerce.Models.Domain.Product;
 
 namespace ECommerce.Data
 {

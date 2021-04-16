@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Models.Order
+﻿namespace ECommerce.Models.Domain.Order
 {
     public enum OrderStatus
     {

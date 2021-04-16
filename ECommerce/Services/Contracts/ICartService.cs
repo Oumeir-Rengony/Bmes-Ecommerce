@@ -1,6 +1,6 @@
-﻿using ECommerce.Models.Cart;
-using ECommerce.ViewModels.Cart;
+﻿using ECommerce.ViewModels.Cart;
 using System.Collections.Generic;
+using ECommerce.Models.Domain.Cart;
 
 namespace ECommerce.Services.Contracts
 {

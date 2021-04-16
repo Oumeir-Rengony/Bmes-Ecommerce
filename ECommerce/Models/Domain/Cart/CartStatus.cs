@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Models.Cart
+﻿namespace ECommerce.Models.Domain.Cart
 {
     public enum CartStatus
     {

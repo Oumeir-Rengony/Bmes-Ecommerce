@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Models.Domain.Product;
 using ECommerce.Services.Contracts;
+using ECommerce.ViewModels.Catalogue;
 
 namespace ECommerce.Controllers
 {

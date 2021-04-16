@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ECommerce.Data;
-using ECommerce.Models.Cart;
+using ECommerce.Models.Domain.Cart;
 using ECommerce.Repositories.Contracts;
 
 namespace ECommerce.Repositories

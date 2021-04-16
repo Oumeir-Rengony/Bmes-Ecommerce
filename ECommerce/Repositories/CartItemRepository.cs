@@ -1,8 +1,8 @@
 ﻿using ECommerce.Data;
-using ECommerce.Models.Cart;
 using ECommerce.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerce.Models.Domain.Cart;
 
 namespace Bmes.Repositories
 {

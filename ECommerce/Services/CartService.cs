@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerce.Models.Cart;
+using ECommerce.Models.Domain.Cart;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
 using ECommerce.Services.Contracts;

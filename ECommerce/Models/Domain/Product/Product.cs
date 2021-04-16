@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ECommerce.Models.Product
+﻿namespace ECommerce.Models.Domain.Product
 {
     public class Product : BaseObject
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ECommerce.Models.Product;
+using ECommerce.Models.Domain.Product;
 
 namespace ECommerce.Repositories.Contracts
 {
