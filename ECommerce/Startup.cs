@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bmes.Repositories;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
 using ECommerce.Services;

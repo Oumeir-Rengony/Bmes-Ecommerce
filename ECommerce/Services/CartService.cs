@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ECommerce.Models.Domain.Cart;
+using ECommerce.Models.Domain.Product;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
 using ECommerce.Services.Contracts;
@@ -51,63 +52,68 @@ namespace ECommerce.Services
             return cart;
         }
 
+
         public void AddToCart(AddToCartViewModel addToCartViewModel)
         {
             var cart = GetCart();
 
             if (cart != null)
             {
-                var existingCartItem = _cartItemRepository.FindCartItemsByCartId(cart.Id)
-                                                          .FirstOrDefault(c => c.ProductId == addToCartViewModel.ProductId);
+                //if product exists update quantity
+                var existingCartItem = GetExistingCartItem(cart, addToCartViewModel.ProductId);
+
                 if (existingCartItem != null)
                 {
                     existingCartItem.Quantity++;
                     _cartItemRepository.UpdateCartItem(existingCartItem);
-                }
-                else
-                {
-                    var product = _productRepository.FindProductById(addToCartViewModel.ProductId);
-
-                    if (product != null)
-                    {
-                        var cartItem = new CartItem
-                        {
-                            CartId = cart.Id,
-                            Cart = cart,
-                            ProductId = addToCartViewModel.ProductId,
-                            Product = product,
-                            Quantity = 1
-                        };
-                        _cartItemRepository.SaveCartItem(cartItem);
-                    }
+                    return;
                 }
             }
+
             else
             {
-                var product = _productRepository.FindProductById(addToCartViewModel.ProductId);
-                if (product != null)
-                {
-                    var newCart = new Cart
-                    {
-                        UniqueCartId = UniqueCartId(),
-                        CartStatus = CartStatus.Open
-                    };
-
-                    _cartRepository.SaveCart(newCart);
-
-                    var cartItem = new CartItem
-                    {
-                        CartId = newCart.Id,
-                        Cart = newCart,
-                        ProductId = addToCartViewModel.ProductId,
-                        Product = product,
-                        Quantity = 1
-                    };
-
-                    _cartItemRepository.SaveCartItem(cartItem);
-
-                }
+                cart = CreateNewCart();
             }
+
+            //add Product
+            var product = _productRepository.FindProductById(addToCartViewModel.ProductId);
+
+            if (product != null)
+                AddCartItem(cart, product);
+        }
+
+        public Cart CreateNewCart()
+        {
+            var newCart = new Cart
+            {
+                UniqueCartId = UniqueCartId(),
+                CartStatus = CartStatus.Open
+            };
+
+            _cartRepository.SaveCart(newCart);
+
+            return newCart;
+        }
+
+        public CartItem GetExistingCartItem(Cart cart, long productId)
+        {
+            return _cartItemRepository
+                        .FindCartItemsByCartId(cart.Id)
+                        .FirstOrDefault(c => c.ProductId == productId);
+        }
+
+        public void AddCartItem(Cart cart, Product product)
+        {
+            var cartItem = new CartItem
+            {
+                CartId = cart.Id,
+                Cart = cart,
+                ProductId = product.Id,
+                Product = product,
+                Quantity = 1
+            };
+
+            _cartItemRepository.SaveCartItem(cartItem);
         }
 
         public void RemoveFromCart(RemoveFromCartViewModel removeFromCartViewModel)

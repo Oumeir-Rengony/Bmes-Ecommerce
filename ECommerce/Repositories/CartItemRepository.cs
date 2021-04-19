@@ -3,8 +3,9 @@ using ECommerce.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerce.Models.Domain.Cart;
+using ECommerce.Models.Domain.Product;
 
-namespace Bmes.Repositories
+namespace ECommerce.Repositories
 {
     public class CartItemRepository : ICartItemRepository
     {
@@ -27,6 +28,7 @@ namespace Bmes.Repositories
             var cartItems = _context.CartItems.Where(cartItem => cartItem.CartId == cartId);
             return cartItems;
         }
+
 
         public void SaveCartItem(CartItem cartItem)
         {

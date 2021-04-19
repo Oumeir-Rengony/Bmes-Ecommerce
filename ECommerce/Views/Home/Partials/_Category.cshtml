@@ -1,49 +1,32 @@
-﻿@model IEnumerable<ECommerce.Models.Domain.Product.Category>
-
+﻿@model PagedProductViewModel
 
 <h5 class="filterBy__heading">Categories</h5>
 
 <div class="filterBy__list-wrapper">
     <ul>
-        @foreach (var category in Model)
+
+        @foreach (var category in Model.Categories)
         {
-            @if (category.Slug == (string)@ViewData["SelectedCategory"])
+            string isLinkSelectedClassName = "filterBy__item__not-selected";
+
+            if (category.Slug == Model.CurrentCategory)
             {
-
-                <li>
-
-                    <a
-                        asp-controller="Home" asp-action="Index"
-                        asp-route-category_slug="@category.Slug"
-                        asp-route-brand_slug="@ViewData["SelectedBrand"]"
-                        asp-route-page=1
-
-                        class="filterBy__item__selected">
-                        
-                        @category.Name
-
-                    </a>
-                </li>
+                isLinkSelectedClassName = "filterBy__item__selected";
             }
-            else
-            {
-                <li>
 
-                    <a
-                        asp-controller="Home" asp-action="Index"
-                        asp-route-category_slug="@category.Slug"
-                        asp-route-brand_slug="@ViewData["SelectedBrand"]"
-                        asp-route-page=1
+            <li>
 
-                        class="filterBy__item__not-selected">
-                        
-                        @category.Name
+                <a asp-controller="Home" asp-action="Index"
+                   asp-route-category_slug="@category.Slug"
+                   asp-route-brand_slug="@Model.CurrentBrand"
+                   asp-route-page=1
+                   class="@isLinkSelectedClassName">
 
-                    </a>
-                </li>
+                    @category.Name
 
-                @*<li><a href="/home/@category.Slug/@ViewData["SelectedBrand"]/1" class="filterBy__item__not-selected">@category.Name</a></li>*@
-            }
+                </a>
+            </li>
+
         }
     </ul>
 

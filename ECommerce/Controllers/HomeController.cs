@@ -27,10 +27,6 @@ namespace ECommerce.Controllers
 
         public IActionResult Index(string category_slug = "all-categories", string brand_slug = "all-brands", int page = 1)
         {
-            ViewData["SelectedCategory"] = category_slug;
-            ViewData["SelectedBrand"] = brand_slug;
-            ViewData["Page"] = page;
-
             ViewData["CartTotal"] = _cartService.GetCartTotal();
             ViewData["CartItemsCount"] = _cartService.CartItemsCount();
             ViewData["CartItems"] = _cartService.GetCartItems();

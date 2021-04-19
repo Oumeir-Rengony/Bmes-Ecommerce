@@ -1,44 +1,33 @@
-﻿@model IEnumerable<ECommerce.Models.Domain.Product.Brand>
+﻿@model PagedProductViewModel
 
 <h5 class="filterBy__heading">Brands</h5>
 
+@*asp-route-category_slug="@ViewData["SelectedCategory"]"*@
 
 <div class="filterBy__list-wrapper">
     <ul>
-        @foreach (var brand in Model)
+        @foreach (var brand in Model.Brands)
         {
-            @if (brand.Slug == (string)ViewData["SelectedBrand"])
+            string isLinkSelectedClassName = "filterBy__item__not-selected";
+
+            if (brand.Slug == Model.CurrentBrand)
             {
-                <li>
-
-                    <a asp-controller="Home" asp-action="Index"
-                       asp-route-category_slug="@ViewData["SelectedCategory"]"
-                       asp-route-brand_slug="@brand.Slug"
-                       asp-route-page=1
-                       class="filterBy__item__selected"
-                       >
-                        @brand.Name
-                    </a>
-                </li>
-
-           @* <li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__selected">@brand.Name</a></li>*@
-        }
-            else
-            {
-                <li>
-
-                    <a asp-controller="Home" asp-action="Index"
-                       asp-route-category_slug="@ViewData["SelectedCategory"]"
-                       asp-route-brand_slug="@brand.Slug"
-                       asp-route-page=1
-                       class="filterBy__item__not-selected"
-                    >
-                        @brand.Name
-                    </a>
-                </li>
-                @*<li><a href="/home/@ViewData["SelectedCategory"]/@brand.Slug/1" class="filterBy__item__not-selected">@brand.Name</a></li>*@
+                isLinkSelectedClassName = "filterBy__item__selected";
             }
+
+            <li>
+
+                <a asp-controller="Home" asp-action="Index"
+                   asp-route-category_slug="@Model.CurrentCategory"
+                   asp-route-brand_slug="@brand.Slug"
+                   asp-route-page=1
+                   class="@isLinkSelectedClassName">
+                    @brand.Name
+                </a>
+            </li>
+
         }
+
     </ul>
 
 </div>

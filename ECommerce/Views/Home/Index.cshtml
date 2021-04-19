@@ -9,14 +9,14 @@
             @*<h4 class="index__filter-title">Filter By</h4>
                 <hr />*@
             <div>
-                <partial name="../Home/Partials/_Category.cshtml" model="@Model.Categories" view-data="ViewData" />
+                <partial name="../Home/Partials/_Category.cshtml" />
             </div>
             <div>
-                <partial name="../Home/Partials/_Brand.cshtml" model="@Model.Brands" view-data="ViewData" />
+                <partial name="../Home/Partials/_Brand.cshtml" />
             </div>
         </div>
         <div class="col-md-9 @(Model.PagedProducts.Products.Any()? " index__product-wrapper--has-pages" : "index__product-wrapper--no-pages" )" style="padding-top: 40px;">
-            <partial name="../Home/Partials/_ProductList.cshtml" model="@Model" />
+            <partial name="../Home/Partials/_ProductList.cshtml" />
         </div>
     </div>
 </div>

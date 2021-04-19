@@ -42,7 +42,7 @@ namespace ECommerce.Services
 
             var totalPages =  GetTotalPages(filteredProducts);
             PaginationViewModel pagination = CreatePaginationViewModel(productsByPage, productPage, totalPages);
-            PagedProductViewModel pagedProducts = CreatePagedProductViewModel(pagination, brands, categories);
+            PagedProductViewModel pagedProducts = CreatePagedProductViewModel(pagination, brands, categories, filter);
 
             return pagedProducts;
         }
@@ -97,13 +97,16 @@ namespace ECommerce.Services
         public PagedProductViewModel CreatePagedProductViewModel(
             PaginationViewModel paginationViewModel,
             IEnumerable<Brand> brands,
-            IEnumerable<Category> categories)
+            IEnumerable<Category> categories,
+            FilterModel filter)
         {
             var pagedProducts = new PagedProductViewModel
             {
                 PagedProducts = paginationViewModel,
                 Brands = brands,
-                Categories = categories
+                Categories = categories,
+                CurrentBrand = filter.BrandSlug,
+                CurrentCategory = filter.CategorySlug
             };
 
             return pagedProducts;

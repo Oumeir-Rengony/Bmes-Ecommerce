@@ -1,28 +1,47 @@
-﻿@model ECommerce.Models.Domain.Product.Product
+﻿@model PagedProductViewModel
 @{
     var addToCartViewModel = new AddToCartViewModel();
 }
 
-<div class="product-list-item">
-    <div class="product-list-item__image-wrapper">
-        <img src="/images/productimages/main/@Model.ImageUrl" class="product-list-item__image" />
-    </div>
-    <div>
-        <p class="product-list-item__product-name">@Model.Name</p>
-    </div>
-    <div>
-        <p class="product-list-item__product-price">$@Model.Price</p>
-    </div>
 
-    <div>
-        <form asp-controller="Cart" asp-action="AddItemToCart" method="post">
-            <input type="hidden" asp-for="@addToCartViewModel.ProductId" value="@Model.Id" />
-            <input type="hidden" asp-for="@addToCartViewModel.CategorySlug" value="@ViewData["SelectedCategory"]" />
-            <input type="hidden" asp-for="@addToCartViewModel.BrandSlug" value="@ViewData["SelectedBrand"]" />
-            <input type="hidden" asp-for="@addToCartViewModel.Page" value="@ViewData["Page"]" />
-            <button type="submit" name="submit" class="product-list-item__button">Add to Cart</button>
-        </form>
+@if (Model.PagedProducts.Products.Any())
+{
+    @foreach (var product in Model.PagedProducts.Products)
+    {
+        <div class="col-md-4">
+            <div class="product-list-item">
+                <div class="product-list-item__image-wrapper">
+                    <img src="/images/productimages/main/@product.ImageUrl" class="product-list-item__image" />
+                </div>
+                <div>
+                    <p class="product-list-item__product-name">@product.Name</p>
+                </div>
+                <div>
+                    <p class="product-list-item__product-price">$@product.Price</p>
+                </div>
+
+                <div>
+                    <form asp-controller="Cart" asp-action="AddItemToCart" method="post">
+                        <input type="hidden" asp-for="@addToCartViewModel.ProductId" value="@product.Id" />
+                        <input type="hidden" asp-for="@addToCartViewModel.CategorySlug" value="@Model.CurrentCategory" />
+                        <input type="hidden" asp-for="@addToCartViewModel.BrandSlug" value="@Model.CurrentBrand" />
+                        <input type="hidden" asp-for="@addToCartViewModel.Page" value="@Model.PagedProducts.CurrentPage" />
+                        <button type="submit" name="submit" class="product-list-item__button">Add to Cart</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="product-list__empty-notifier">
+        <p>
+            There are no products that match your filters.
+        </p>
+        <p>
+            Try a different combination or contact customer service for further assistance.
+        </p>
     </div>
-
-</div>
-
+}
