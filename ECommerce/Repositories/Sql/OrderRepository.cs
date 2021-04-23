@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using ECommerce.Data;
 using ECommerce.Models.Domain.Order;
 using ECommerce.Repositories.Contracts;
 
-namespace ECommerce.Repositories
+namespace ECommerce.Repositories.Sql
 {
     public class OrderRepository : IOrderRepository
     {

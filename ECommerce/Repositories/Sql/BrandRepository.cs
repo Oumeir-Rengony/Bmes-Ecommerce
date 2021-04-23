@@ -4,7 +4,7 @@ using ECommerce.Data;
 using ECommerce.Models.Domain.Product;
 using ECommerce.Repositories.Contracts;
 
-namespace ECommerce.Repositories
+namespace ECommerce.Repositories.Sql
 {
     public class BrandRepository : IBrandRepository
     {

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
+using ECommerce.Repositories.Sql;
 using ECommerce.Services;
 using ECommerce.Services.Contracts;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace ECommerce
             services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
-            services.AddTransient<ICartItemRepository, CartItemRepository>();
+            services.AddTransient<ICartItemRepository, Repositories.InMemory.CartItemRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 

@@ -1,11 +1,10 @@
-﻿using ECommerce.Data;
-using ECommerce.Repositories.Contracts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ECommerce.Data;
 using ECommerce.Models.Domain.Cart;
-using ECommerce.Models.Domain.Product;
+using ECommerce.Repositories.Contracts;
 
-namespace ECommerce.Repositories
+namespace ECommerce.Repositories.Sql
 {
     public class CartItemRepository : ICartItemRepository
     {

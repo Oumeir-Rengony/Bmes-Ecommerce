@@ -25,11 +25,11 @@ namespace ECommerce.Controllers
             _cartService = cartService;
         }
 
-        public IActionResult Index(string category_slug = "all-categories", string brand_slug = "all-brands", int page = 1)
+        public async Task<IActionResult> Index(string category_slug = "all-categories", string brand_slug = "all-brands", int page = 1)
         {
-            ViewData["CartTotal"] = _cartService.GetCartTotal();
-            ViewData["CartItemsCount"] = _cartService.CartItemsCount();
-            ViewData["CartItems"] = _cartService.GetCartItems();
+            ViewData["CartTotal"] = await _cartService.GetCartTotal();
+            ViewData["CartItemsCount"] = await _cartService.CartItemsCount();
+            ViewData["CartItems"] = await _cartService.GetCartItems();
 
             var pagedProducts = _catalogueService.FetchProducts(category_slug, brand_slug, page);
 

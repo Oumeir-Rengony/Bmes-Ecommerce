@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ECommerce.Data;
 using ECommerce.Models.Domain.Cart;
 using ECommerce.Repositories.Contracts;
 
-namespace ECommerce.Repositories
+namespace ECommerce.Repositories.Sql
 {
     public class CartRepository : ICartRepository
     {

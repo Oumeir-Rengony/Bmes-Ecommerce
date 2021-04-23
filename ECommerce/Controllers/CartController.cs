@@ -1,4 +1,5 @@
-﻿using ECommerce.Services;
+﻿using System.Threading.Tasks;
+using ECommerce.Services;
 using ECommerce.Services.Contracts;
 using ECommerce.ViewModels.Cart;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +18,11 @@ namespace ECommerce.Controllers
         }
 
         [HttpGet]
-        public IActionResult CartDetail()
+        public async Task<IActionResult> CartDetail()
         {
-            ViewData["CartTotal"] = _cartService.GetCartTotal();
-            ViewData["CartItemsCount"] = _cartService.CartItemsCount();
-            ViewData["CartItems"] = _cartService.GetCartItems();
+            ViewData["CartTotal"] = await _cartService.GetCartTotal();
+            ViewData["CartItemsCount"] = await _cartService.CartItemsCount();
+            ViewData["CartItems"] = await _cartService.GetCartItems();
 
             return View();
         }
@@ -34,9 +35,9 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItemToCart(AddToCartViewModel addToCartViewModel)
+        public async Task<IActionResult> AddItemToCart(AddToCartViewModel addToCartViewModel)
         {
-            _cartService.AddToCart(addToCartViewModel);
+            await _cartService.AddToCart(addToCartViewModel);
 
             return RedirectToAction("Index", "Home", new { category_slug = addToCartViewModel.CategorySlug, brand_slug = addToCartViewModel.BrandSlug, page = addToCartViewModel.Page });
 

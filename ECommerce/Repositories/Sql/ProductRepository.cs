@@ -4,7 +4,7 @@ using ECommerce.Models.Domain.Product;
 using ECommerce.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.Repositories
+namespace ECommerce.Repositories.Sql
 {
     public class ProductRepository : IProductRepository
     {

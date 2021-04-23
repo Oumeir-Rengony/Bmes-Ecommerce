@@ -1,61 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ECommerce.Models.Domain.Cart;
+using ECommerce.Models.Domain.Customer;
 using ECommerce.Models.Domain.Product;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
 using ECommerce.Services.Contracts;
 using ECommerce.ViewModels.Cart;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace ECommerce.Services
 {
     public class CartService : ICartService
     {
-        private const string UniqueCartIdSessionKey = "UniqueCartId";
-        private readonly HttpContext _httpContext;
+        private const string UniqueCartIdSessionKey = "UniqueCartId"; 
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICartRepository _cartRepository;
         private readonly ICartItemRepository _cartItemRepository;
         private readonly IProductRepository _productRepository;
 
         public CartService(IHttpContextAccessor httpContextAccessor,
+                            UserManager<IdentityUser> userManager,
                             ICartRepository cartRepository,
                             ICartItemRepository cartItemRepository,
                             IProductRepository productRepository)
         {
-            _httpContext = httpContextAccessor.HttpContext;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _productRepository = productRepository;
         }
 
-        public string UniqueCartId()
+        /*public string UniqueCartId()
         {
-            if (!string.IsNullOrWhiteSpace(_httpContext.Session.GetString(UniqueCartIdSessionKey)))
+            if (!string.IsNullOrWhiteSpace(_httpContextAccessor.HttpContext.Session.GetString(UniqueCartIdSessionKey)))
             {
-                return _httpContext.Session.GetString(UniqueCartIdSessionKey);
+                return _httpContextAccessor.HttpContext.Session.GetString(UniqueCartIdSessionKey);
             }
             else
             {
                 var uniqueId = Guid.NewGuid().ToString();
-                _httpContext.Session.SetString(UniqueCartIdSessionKey, uniqueId);
+                _httpContextAccessor.HttpContext.Session.SetString(UniqueCartIdSessionKey, uniqueId);
 
-                return _httpContext.Session.GetString(UniqueCartIdSessionKey);
+                return _httpContextAccessor.HttpContext.Session.GetString(UniqueCartIdSessionKey);
             }
+        }*/
+
+        public async Task<string> UniqueCartId()
+        {
+            var customer = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            var cart = _cartRepository.GetAllCarts().FirstOrDefault(c => c.CustomerId == customer.Id);
+
+            if (cart == null)
+                return _httpContextAccessor.HttpContext.Session.GetString(UniqueCartIdSessionKey);
+
+            return cart.UniqueCartId;
+
         }
 
-        public Cart GetCart()
+        public async Task<Cart> GetCart()
         {
-            var uniqueId = UniqueCartId();
-            var cart = _cartRepository.GetAllCarts().FirstOrDefault(c => c.UniqueCartId == uniqueId);
+            var customer = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            if (customer == null)
+                return null;
+
+            var cart = _cartRepository.GetAllCarts()
+                                                .FirstOrDefault(c => c.CustomerId == customer.Id);
             return cart;
         }
 
+        /* public Cart GetCart()
+         {
+             var uniqueId = UniqueCartId();
+             var cart = _cartRepository.GetAllCarts().FirstOrDefault(c => c.UniqueCartId == uniqueId);
+             return cart;
+         }*/
 
-        public void AddToCart(AddToCartViewModel addToCartViewModel)
+
+        public async Task AddToCart(AddToCartViewModel addToCartViewModel)
         {
-            var cart = GetCart();
+            var cart = await GetCart();
 
             if (cart != null)
             {
@@ -72,7 +103,7 @@ namespace ECommerce.Services
 
             else
             {
-                cart = CreateNewCart();
+                cart = await CreateNewCart();
             }
 
             //add Product
@@ -82,12 +113,16 @@ namespace ECommerce.Services
                 AddCartItem(cart, product);
         }
 
-        public Cart CreateNewCart()
+        public async Task<Cart> CreateNewCart()
         {
+            var customer = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
             var newCart = new Cart
             {
-                UniqueCartId = UniqueCartId(),
-                CartStatus = CartStatus.Open
+                UniqueCartId = await UniqueCartId(),
+                CartStatus = CartStatus.Open,
+                CustomerId = customer.Id,
+                Customer = (Customer) customer
             };
 
             _cartRepository.SaveCart(newCart);
@@ -122,25 +157,24 @@ namespace ECommerce.Services
             _cartItemRepository.DeleteCartItem(cartItem);
         }
 
-        public IEnumerable<CartItem> GetCartItems()
+        public async Task<IEnumerable<CartItem>> GetCartItems()
         {
             IList<CartItem> cartItems = new List<CartItem>();
 
-            var cart = GetCart();
+            var cart = await GetCart();
 
             if (cart != null)
             {
-                cartItems = _cartItemRepository.FindCartItemsByCartId(cart.Id).ToArray();
+                cartItems = _cartItemRepository.FindCartItemsByCartId(cart.Id).ToList();
             }
 
             return cartItems;
         }
 
-        public int CartItemsCount()
+        public async Task<int> CartItemsCount()
         {
-
             var count = 0;
-            var cartItems = GetCartItems();
+            var cartItems = await GetCartItems();
 
             foreach (var cartItem in cartItems)
             {
@@ -151,11 +185,11 @@ namespace ECommerce.Services
         }
 
 
-        public decimal GetCartTotal()
+        public async Task<decimal> GetCartTotal()
         {
             decimal total = 0;
 
-            var cartItems = GetCartItems();
+            var cartItems = await GetCartItems();
 
             foreach (var cartItem in cartItems)
             {
