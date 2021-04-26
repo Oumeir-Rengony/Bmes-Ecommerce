@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Repositories.Sql
 {
-    public class ProductRepository : IProductRepository
+    public class SqlProductRepository : IProductRepository
     {
 
         private ApplicationDbContext _context;
 
-        public ProductRepository(ApplicationDbContext context)
+        public SqlProductRepository(ApplicationDbContext context)
         {
             _context = context;
         }

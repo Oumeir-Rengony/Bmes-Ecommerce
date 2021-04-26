@@ -9,13 +9,13 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ECommerce.Repositories.InMemory
 {
-    public class CartItemRepository:ICartItemRepository
+    public class InMemoryCartItemRepository:ICartItemRepository
     {
         private readonly IMemoryCache _memoryCache;
         private static readonly IList CartItemList = new List<CartItem>();
         private const string CartItemCacheKey = "CartItemCacheKey";
 
-        public CartItemRepository(IMemoryCache memoryCache)
+        public InMemoryCartItemRepository(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }

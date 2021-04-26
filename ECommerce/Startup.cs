@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Repositories;
 using ECommerce.Repositories.Contracts;
+using ECommerce.Repositories.InMemory;
 using ECommerce.Repositories.Sql;
 using ECommerce.Services;
 using ECommerce.Services.Contracts;
@@ -45,13 +46,13 @@ namespace ECommerce
             services.AddRazorPages();
             services.AddSession();
 
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IBrandRepository, BrandRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<ICartRepository, CartRepository>();
-            services.AddTransient<ICartItemRepository, Repositories.InMemory.CartItemRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            services.AddTransient<IProductRepository, SqlProductRepository>();
+            services.AddTransient<IBrandRepository, SqlBrandRepository>();
+            services.AddTransient<ICategoryRepository, SqlCategoryRepository>();
+            services.AddTransient<ICartRepository, SqlCartRepository>();
+            services.AddTransient<ICartItemRepository, InMemoryCartItemRepository>();
+            services.AddTransient<IOrderRepository, SqlOrderRepository>();
+            services.AddTransient<IOrderItemRepository, SqlOrderItemRepository>();
 
             services.AddTransient<ICatalogueService, CatalogueService>();
             services.AddTransient<ICartService, CartService>();

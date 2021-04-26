@@ -5,12 +5,12 @@ using ECommerce.Repositories.Contracts;
 
 namespace ECommerce.Repositories.Sql
 {
-    public class CategoryRepository: ICategoryRepository
+    public class SqlCategoryRepository: ICategoryRepository
 
     {
     private ApplicationDbContext _context;
 
-    public CategoryRepository(ApplicationDbContext context)
+    public SqlCategoryRepository(ApplicationDbContext context)
     {
         _context = context;
     }

@@ -6,11 +6,11 @@ using ECommerce.Repositories.Contracts;
 
 namespace ECommerce.Repositories.Sql
 {
-    public class CartRepository : ICartRepository
+    public class SqlCartRepository : ICartRepository
     {
         private ApplicationDbContext _context;
 
-        public CartRepository(ApplicationDbContext context)
+        public SqlCartRepository(ApplicationDbContext context)
         {
             _context = context;
         }

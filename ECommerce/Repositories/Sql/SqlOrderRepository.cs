@@ -5,11 +5,11 @@ using ECommerce.Repositories.Contracts;
 
 namespace ECommerce.Repositories.Sql
 {
-    public class OrderRepository : IOrderRepository
+    public class SqlOrderRepository : IOrderRepository
     {
         private ApplicationDbContext _context;
 
-        public OrderRepository(ApplicationDbContext context)
+        public SqlOrderRepository(ApplicationDbContext context)
         {
             _context = context;
         }

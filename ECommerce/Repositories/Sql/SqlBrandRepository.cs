@@ -6,11 +6,11 @@ using ECommerce.Repositories.Contracts;
 
 namespace ECommerce.Repositories.Sql
 {
-    public class BrandRepository : IBrandRepository
+    public class SqlBrandRepository : IBrandRepository
     {
         private ApplicationDbContext _context;
 
-        public BrandRepository(ApplicationDbContext context)
+        public SqlBrandRepository(ApplicationDbContext context)
         {
             _context = context;
         }
